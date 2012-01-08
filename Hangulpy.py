@@ -66,9 +66,50 @@ class Hangulpy:
     @staticmethod
     def has_batchim(letter):
         return Hangulpy.has_jongsung(letter)
+    
+    @staticmethod
+    def josa_en(word):
+        """add josa either '은' or '는' at the end of this word"""
+        word = word.strip()
+        last_letter = word[-1]
+        if not Hangulpy.is_hangul: raise NotHangulException('')
+        
+        josa = u'은' if Hangulpy.has_jongsung(last_letter) else u'는'
+        return word + josa
+    
+    @staticmethod
+    def josa_eg(word):
+        """add josa either '이' or '가' at the end of this word"""
+        word = word.strip()
+        last_letter = word[-1]
+        if not Hangulpy.is_hangul: raise NotHangulException('')
+        
+        josa = u'이' if Hangulpy.has_jongsung(last_letter) else u'가'
+        return word + josa
+
+    @staticmethod
+    def josa_el(word):
+        """add josa either '을' or '를' at the end of this word"""
+        word = word.strip()
+        last_letter = word[-1]
+        if not Hangulpy.is_hangul: raise NotHangulException('')
+        
+        josa = u'을' if Hangulpy.has_jongsung(last_letter) else u'를'
+        return word + josa
+
+################################################################################
+# Exceptions
+################################################################################
 
 class NotHangulException(Exception):
     pass
+
+class NotWordException(Exception):
+    pass
+
+################################################################################
+# title
+################################################################################
 
 if __name__ == '__main__':
     print 'Hangul Module'
