@@ -24,8 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import sys
-import os
 import unittest
 
 # Code = 0xAC00 + (Chosung_index * 21 * 28) + (Joongsung_index * 28) + (Jongsung_index)
@@ -69,36 +67,8 @@ class Hangul:
     def has_batchim(letter):
         return Hangul.has_jongsung(letter)
 
-class HangulTests(unittest.TestCase):
-    def setUp(self):
-        pass
-
-    def testIsHangul(self):
-        hangul_letters = u'가나다라힣뷁'
-        other_letters = u'@%漢字かんじhán tự'
-        non_unicode_letters = 'abcdez$%^&* '
-        
-        for letter in hangul_letters:
-            self.assertTrue(Hangul.is_hangul(letter))
-        
-        for letter in other_letters:
-            self.assertFalse(Hangul.is_hangul(letter))
-        
-        for letter in non_unicode_letters:
-            self.assertFalse(Hangul.is_hangul(letter))
-    
-    def testHasJongSung(self):
-        jongsung_letters = u'강줽뷁'
-        non_jongsung_letters = u'가너댜봬쉐'
-        
-        for letter in jongsung_letters:
-            self.assertTrue(Hangul.has_jongsung(letter))
-        
-        for letter in non_jongsung_letters:
-            self.assertFalse(Hangul.has_jongsung(letter))
-
 class NotHangulException(Exception):
     pass
 
 if __name__ == '__main__':
-    unittest.main()
+    print 'Hangul Module'
