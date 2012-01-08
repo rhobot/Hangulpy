@@ -14,7 +14,7 @@ class HangulTests(unittest.TestCase):
     def setUp(self):
         pass
 
-    def testIsHangul(self):
+    def test_is_hangul(self):
         hangul_letters = u'가나다라힣뷁'
         other_letters = u'@%漢字かんじhán tự'
         non_unicode_letters = 'abcdez$%^&* '
@@ -28,7 +28,7 @@ class HangulTests(unittest.TestCase):
         for letter in non_unicode_letters:
             self.assertFalse(Hangulpy.is_hangul(letter))
     
-    def testHasJongSung(self):
+    def test_has_jongsung(self):
         jongsung_letters = u'강줽뷁'
         non_jongsung_letters = u'가너댜봬쉐'
         
@@ -37,6 +37,8 @@ class HangulTests(unittest.TestCase):
         
         for letter in non_jongsung_letters:
             self.assertFalse(Hangulpy.has_jongsung(letter))
+    
+
     
 if __name__ == '__main__':
     unittest.main()

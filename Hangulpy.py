@@ -24,32 +24,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import unittest
-
-# Code = 0xAC00 + (Chosung_index * 21 * 28) + (Joongsung_index * 28) + (Jongsung_index)
+# Code = 0xAC00 + (Chosung_index * NUM_JOONGSUNGS * NUM_JONGSUNGS) + (Joongsung_index * NUM_JONGSUNGS) + (Jongsung_index)
 class Hangulpy:
-    CHO_SUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
-    JOONG_SUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
-    JONG_SUNGS = [u'',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
+    CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
+    JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
+    JONGSUNGS = [u'',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
     
-    FIRST_HANGUL_CODE = 0xAC00 #'가'
-    LAST_HANGUL_CODE = 0xD7A3 #'힣'
+    NUM_CHOSUNGS = 19
+    NUM_JOONGSUNGS = 21
+    NUM_JONGSUNGS = 28
+    
+    FIRST_HANGUL_UNICODE = 0xAC00 #'가'
+    LAST_HANGUL_UNICODE = 0xD7A3 #'힣'
 
     def __init__(self, phrase):
         pass
 
     @staticmethod
     def is_hangul(letter):
-        """
-        Check whether the letter is Hangul
+        """Check whether the letter is Hangul
         @param letter A letter as a string
-        @return True if the letter is Hangul. False otherwise.    
-        """
+        @return True if the letter is Hangul. False otherwise."""
         if len(letter) != 1:
             raise Exception('The target string must be one letter.')
 
         unicode_value = ord(letter)
-        return unicode_value >= Hangulpy.FIRST_HANGUL_CODE and unicode_value <= Hangulpy.LAST_HANGUL_CODE
+        return unicode_value >= Hangulpy.FIRST_HANGUL_UNICODE and unicode_value <= Hangulpy.LAST_HANGUL_UNICODE
     
     @staticmethod
     def has_jongsung(letter):
@@ -58,13 +58,13 @@ class Hangulpy:
             raise Exception('The target string must be one letter.')
         if not Hangulpy.is_hangul(letter):
             raise NotHangulException('The target string must be Hangul')
-        
+
         unicode_value = ord(letter)
-        num_jongsungs = len(Hangulpy.JONG_SUNGS)
-        return (unicode_value - Hangulpy.FIRST_HANGUL_CODE) % num_jongsungs > 0
+        return (unicode_value - Hangulpy.FIRST_HANGUL_UNICODE) % Hangulpy.NUM_JONGSUNGS > 0
     
     @staticmethod
     def has_batchim(letter):
+        """This method is the same as has_jongsung()"""
         return Hangulpy.has_jongsung(letter)
     
     @staticmethod
