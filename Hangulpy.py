@@ -53,10 +53,17 @@ class Hangulpy:
         exclude = set(string.whitespace + string.punctuation + '0123456789')
         phrase = ''.join(ch for ch in phrase if ch not in exclude)
         
+        return Hangulpy.is_all_hangul(phrase)
+    
+    @staticmethod
+    def is_all_hangul(phrase):
+        """Check whether the phrase contains all Hangul letters
+        @param phrase a target string
+        @return True if the phrase only consists of Hangul. False otherwise."""
+        
         for unicode_value in map(lambda letter:ord(letter), phrase):
             if unicode_value < Hangulpy.FIRST_HANGUL_UNICODE or unicode_value > Hangulpy.LAST_HANGUL_UNICODE:
                 return False
-
         return True
     
     @staticmethod
