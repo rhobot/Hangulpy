@@ -24,6 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import string
+
 # Code = 0xAC00 + (Chosung_index * NUM_JOONGSUNGS * NUM_JONGSUNGS) + (Joongsung_index * NUM_JONGSUNGS) + (Jongsung_index)
 class Hangulpy:
     CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
@@ -41,15 +43,21 @@ class Hangulpy:
         pass
 
     @staticmethod
-    def is_hangul(letter):
-        """Check whether the letter is Hangul
-        @param letter A letter as a string
-        @return True if the letter is Hangul. False otherwise."""
-        if len(letter) != 1:
-            raise Exception('The target string must be one letter.')
+    def is_hangul(phrase):
+        """Check whether the phrase is Hangul.
+        This method ignores white spaces, punctuations, and numbers.
+        @param phrase a target string
+        @return True if the phrase is Hangul. False otherwise."""
+        
+        # Remove all white spaces, punctuations, numbers.
+        exclude = set(string.whitespace + string.punctuation + '0123456789')
+        phrase = ''.join(ch for ch in phrase if ch not in exclude)
+        
+        for unicode_value in map(lambda letter:ord(letter), phrase):
+            if unicode_value < Hangulpy.FIRST_HANGUL_UNICODE or unicode_value > Hangulpy.LAST_HANGUL_UNICODE:
+                return False
 
-        unicode_value = ord(letter)
-        return unicode_value >= Hangulpy.FIRST_HANGUL_UNICODE and unicode_value <= Hangulpy.LAST_HANGUL_UNICODE
+        return True
     
     @staticmethod
     def has_jongsung(letter):
