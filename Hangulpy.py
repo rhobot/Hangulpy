@@ -27,7 +27,7 @@ SOFTWARE.
 import unittest
 
 # Code = 0xAC00 + (Chosung_index * 21 * 28) + (Joongsung_index * 28) + (Jongsung_index)
-class Hangul:
+class Hangulpy:
     CHO_SUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
     JOONG_SUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
     JONG_SUNGS = [u'',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
@@ -42,30 +42,30 @@ class Hangul:
     def is_hangul(letter):
         """
         Check whether the letter is Hangul
-        @param letter A letter as a sttring
+        @param letter A letter as a string
         @return True if the letter is Hangul. False otherwise.    
         """
         if len(letter) != 1:
             raise Exception('The target string must be one letter.')
 
         unicode_value = ord(letter)
-        return unicode_value >= Hangul.FIRST_HANGUL_CODE and unicode_value <= Hangul.LAST_HANGUL_CODE
+        return unicode_value >= Hangulpy.FIRST_HANGUL_CODE and unicode_value <= Hangulpy.LAST_HANGUL_CODE
     
     @staticmethod
     def has_jongsung(letter):
         """Check whether this letter contains JongSung"""
         if len(letter) != 1:
             raise Exception('The target string must be one letter.')
-        if not Hangul.is_hangul(letter):
+        if not Hangulpy.is_hangul(letter):
             raise NotHangulException('The target string must be Hangul')
         
         unicode_value = ord(letter)
-        num_jongsungs = len(Hangul.JONG_SUNGS)
-        return (unicode_value - Hangul.FIRST_HANGUL_CODE) % num_jongsungs > 0
+        num_jongsungs = len(Hangulpy.JONG_SUNGS)
+        return (unicode_value - Hangulpy.FIRST_HANGUL_CODE) % num_jongsungs > 0
     
     @staticmethod
     def has_batchim(letter):
-        return Hangul.has_jongsung(letter)
+        return Hangulpy.has_jongsung(letter)
 
 class NotHangulException(Exception):
     pass

@@ -8,7 +8,7 @@ Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 """
 
 import unittest
-from Hangul import *
+from Hangulpy import *
 
 class HangulTests(unittest.TestCase):
     def setUp(self):
@@ -20,23 +20,23 @@ class HangulTests(unittest.TestCase):
         non_unicode_letters = 'abcdez$%^&* '
         
         for letter in hangul_letters:
-            self.assertTrue(Hangul.is_hangul(letter))
+            self.assertTrue(Hangulpy.is_hangul(letter))
         
         for letter in other_letters:
-            self.assertFalse(Hangul.is_hangul(letter))
+            self.assertFalse(Hangulpy.is_hangul(letter))
         
         for letter in non_unicode_letters:
-            self.assertFalse(Hangul.is_hangul(letter))
+            self.assertFalse(Hangulpy.is_hangul(letter))
     
     def testHasJongSung(self):
         jongsung_letters = u'강줽뷁'
         non_jongsung_letters = u'가너댜봬쉐'
         
         for letter in jongsung_letters:
-            self.assertTrue(Hangul.has_jongsung(letter))
+            self.assertTrue(Hangulpy.has_jongsung(letter))
         
         for letter in non_jongsung_letters:
-            self.assertFalse(Hangul.has_jongsung(letter))
+            self.assertFalse(Hangulpy.has_jongsung(letter))
     
 if __name__ == '__main__':
     unittest.main()
