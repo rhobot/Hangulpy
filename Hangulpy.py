@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-Hangul.py
+Hangulpy.py
 
 Copyright (C) 2012 Ryan Rho
 
@@ -27,90 +27,79 @@ SOFTWARE.
 import string
 
 # Code = 0xAC00 + (Chosung_index * NUM_JOONGSUNGS * NUM_JONGSUNGS) + (Joongsung_index * NUM_JONGSUNGS) + (Jongsung_index)
-class Hangulpy:
-    CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
-    JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
-    JONGSUNGS = [u'',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
-    
-    NUM_CHOSUNGS = 19
-    NUM_JOONGSUNGS = 21
-    NUM_JONGSUNGS = 28
-    
-    FIRST_HANGUL_UNICODE = 0xAC00 #'가'
-    LAST_HANGUL_UNICODE = 0xD7A3 #'힣'
+CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
+JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
+JONGSUNGS = [u'',u'ㄱ',u'ㄲ',u'ㄳ',u'ㄴ',u'ㄵ',u'ㄶ',u'ㄷ',u'ㄹ',u'ㄺ',u'ㄻ',u'ㄼ',u'ㄽ',u'ㄾ',u'ㄿ',u'ㅀ',u'ㅁ',u'ㅂ',u'ㅄ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
 
-    def __init__(self, phrase):
-        pass
+NUM_CHOSUNGS = 19
+NUM_JOONGSUNGS = 21
+NUM_JONGSUNGS = 28
 
-    @staticmethod
-    def is_hangul(phrase):
-        """Check whether the phrase is Hangul.
-        This method ignores white spaces, punctuations, and numbers.
-        @param phrase a target string
-        @return True if the phrase is Hangul. False otherwise."""
-        
-        # Remove all white spaces, punctuations, numbers.
-        exclude = set(string.whitespace + string.punctuation + '0123456789')
-        phrase = ''.join(ch for ch in phrase if ch not in exclude)
-        
-        return Hangulpy.is_all_hangul(phrase)
-    
-    @staticmethod
-    def is_all_hangul(phrase):
-        """Check whether the phrase contains all Hangul letters
-        @param phrase a target string
-        @return True if the phrase only consists of Hangul. False otherwise."""
-        
-        for unicode_value in map(lambda letter:ord(letter), phrase):
-            if unicode_value < Hangulpy.FIRST_HANGUL_UNICODE or unicode_value > Hangulpy.LAST_HANGUL_UNICODE:
-                return False
-        return True
-    
-    @staticmethod
-    def has_jongsung(letter):
-        """Check whether this letter contains JongSung"""
-        if len(letter) != 1:
-            raise Exception('The target string must be one letter.')
-        if not Hangulpy.is_hangul(letter):
-            raise NotHangulException('The target string must be Hangul')
+FIRST_HANGUL_UNICODE = 0xAC00 #'가'
+LAST_HANGUL_UNICODE = 0xD7A3 #'힣'
 
-        unicode_value = ord(letter)
-        return (unicode_value - Hangulpy.FIRST_HANGUL_UNICODE) % Hangulpy.NUM_JONGSUNGS > 0
+def is_hangul(phrase):
+    """Check whether the phrase is Hangul.
+    This method ignores white spaces, punctuations, and numbers.
+    @param phrase a target string
+    @return True if the phrase is Hangul. False otherwise."""
     
-    @staticmethod
-    def has_batchim(letter):
-        """This method is the same as has_jongsung()"""
-        return Hangulpy.has_jongsung(letter)
+    # Remove all white spaces, punctuations, numbers.
+    exclude = set(string.whitespace + string.punctuation + '0123456789')
+    phrase = ''.join(ch for ch in phrase if ch not in exclude)
     
-    @staticmethod
-    def josa_en(word):
-        """add josa either '은' or '는' at the end of this word"""
-        word = word.strip()
-        last_letter = word[-1]
-        if not Hangulpy.is_hangul: raise NotHangulException('')
-        
-        josa = u'은' if Hangulpy.has_jongsung(last_letter) else u'는'
-        return word + josa
-    
-    @staticmethod
-    def josa_eg(word):
-        """add josa either '이' or '가' at the end of this word"""
-        word = word.strip()
-        last_letter = word[-1]
-        if not Hangulpy.is_hangul: raise NotHangulException('')
-        
-        josa = u'이' if Hangulpy.has_jongsung(last_letter) else u'가'
-        return word + josa
+    return is_all_hangul(phrase)
 
-    @staticmethod
-    def josa_el(word):
-        """add josa either '을' or '를' at the end of this word"""
-        word = word.strip()
-        last_letter = word[-1]
-        if not Hangulpy.is_hangul: raise NotHangulException('')
-        
-        josa = u'을' if Hangulpy.has_jongsung(last_letter) else u'를'
-        return word + josa
+def is_all_hangul(phrase):
+    """Check whether the phrase contains all Hangul letters
+    @param phrase a target string
+    @return True if the phrase only consists of Hangul. False otherwise."""
+    
+    for unicode_value in map(lambda letter:ord(letter), phrase):
+        if unicode_value < FIRST_HANGUL_UNICODE or unicode_value > LAST_HANGUL_UNICODE:
+            return False
+    return True
+
+def has_jongsung(letter):
+    """Check whether this letter contains JongSung"""
+    if len(letter) != 1:
+        raise Exception('The target string must be one letter.')
+    if not is_hangul(letter):
+        raise NotHangulException('The target string must be Hangul')
+
+    unicode_value = ord(letter)
+    return (unicode_value - FIRST_HANGUL_UNICODE) % NUM_JONGSUNGS > 0
+
+def has_batchim(letter):
+    """This method is the same as has_jongsung()"""
+    return has_jongsung(letter)
+
+def josa_en(word):
+    """add josa either '은' or '는' at the end of this word"""
+    word = word.strip()
+    last_letter = word[-1]
+    if not is_hangul: raise NotHangulException('')
+    
+    josa = u'은' if has_jongsung(last_letter) else u'는'
+    return word + josa
+
+def josa_eg(word):
+    """add josa either '이' or '가' at the end of this word"""
+    word = word.strip()
+    last_letter = word[-1]
+    if not is_hangul: raise NotHangulException('')
+    
+    josa = u'이' if has_jongsung(last_letter) else u'가'
+    return word + josa
+
+def josa_el(word):
+    """add josa either '을' or '를' at the end of this word"""
+    word = word.strip()
+    last_letter = word[-1]
+    if not is_hangul: raise NotHangulException('')
+    
+    josa = u'을' if has_jongsung(last_letter) else u'를'
+    return word + josa
 
 ################################################################################
 # Exceptions
@@ -121,10 +110,3 @@ class NotHangulException(Exception):
 
 class NotWordException(Exception):
     pass
-
-################################################################################
-# title
-################################################################################
-
-if __name__ == '__main__':
-    print 'Hangul Module'
