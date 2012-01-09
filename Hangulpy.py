@@ -26,6 +26,10 @@ SOFTWARE.
 
 import string
 
+################################################################################
+# Hangul Unicode Variables
+################################################################################
+
 # Code = 0xAC00 + (Chosung_index * NUM_JOONGSUNGS * NUM_JONGSUNGS) + (Joongsung_index * NUM_JONGSUNGS) + (Jongsung_index)
 CHOSUNGS = [u'ㄱ',u'ㄲ',u'ㄴ',u'ㄷ',u'ㄸ',u'ㄹ',u'ㅁ',u'ㅂ',u'ㅃ',u'ㅅ',u'ㅆ',u'ㅇ',u'ㅈ',u'ㅉ',u'ㅊ',u'ㅋ',u'ㅌ',u'ㅍ',u'ㅎ']
 JOONGSUNGS = [u'ㅏ',u'ㅐ',u'ㅑ',u'ㅒ',u'ㅓ',u'ㅔ',u'ㅕ',u'ㅖ',u'ㅗ',u'ㅘ',u'ㅙ',u'ㅚ',u'ㅛ',u'ㅜ',u'ㅝ',u'ㅞ',u'ㅟ',u'ㅠ',u'ㅡ',u'ㅢ',u'ㅣ']
@@ -37,6 +41,10 @@ NUM_JONGSUNGS = 28
 
 FIRST_HANGUL_UNICODE = 0xAC00 #'가'
 LAST_HANGUL_UNICODE = 0xD7A3 #'힣'
+
+################################################################################
+# Boolean Hangul functions
+################################################################################
 
 def is_hangul(phrase):
     """Check whether the phrase is Hangul.
@@ -57,7 +65,9 @@ def is_all_hangul(phrase):
     
     for unicode_value in map(lambda letter:ord(letter), phrase):
         if unicode_value < FIRST_HANGUL_UNICODE or unicode_value > LAST_HANGUL_UNICODE:
-            return False
+            # Check whether the letter is chosungs, joongsungs, or jongsungs.
+            if unicode_value not in map(lambda v: ord(v), CHOSUNGS + JOONGSUNGS + JONGSUNGS[1:]):
+                return False
     return True
 
 def has_jongsung(letter):
@@ -77,8 +87,6 @@ def has_batchim(letter):
 ################################################################################
 # Decomposition & Combination
 ################################################################################
-
-
 
 ################################################################################
 # Josa funcctions
