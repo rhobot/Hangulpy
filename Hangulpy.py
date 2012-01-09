@@ -114,18 +114,24 @@ def josa_el(word):
 def josa_ro(word):
     """add josa either '으로' or '로' at the end of this word"""
     word = word.strip()
-    last_letter = word[-1]
-    if not is_hangul: raise NotHangulException('')
+    if not is_hangul(word): raise NotHangulException('')
     
-    josa = u'로' if (has_jongsung(last_letter) | (ord(last_letter) - FIRST_HANGUL_UNICODE) % NUM_JONGSUNGS == 9) else u'으로'
+    last_letter = word[-1]
+    if not has_jongsung(last_letter):
+        josa = u'로'
+    elif (ord(last_letter) - FIRST_HANGUL_UNICODE) % NUM_JONGSUNGS == 9:
+        josa = u'로'
+    else:
+        josa = u'으로'
+
     return word + josa
     
 def josa_gwa(word):
     """add josa either '과' or '와' at the end of this word"""
     word = word.strip()
-    last_letter = word[-1]
-    if not is_hangul: raise NotHangulException('')
+    if not is_hangul(word): raise NotHangulException('')
     
+    last_letter = word[-1]
     josa = u'과' if has_jongsung(last_letter) else u'와'
     return word + josa
 
