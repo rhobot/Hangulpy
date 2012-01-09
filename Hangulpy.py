@@ -74,30 +74,40 @@ def has_batchim(letter):
     """This method is the same as has_jongsung()"""
     return has_jongsung(letter)
 
+################################################################################
+# Decomposition & Combination
+################################################################################
+
+
+
+################################################################################
+# Josa funcctions
+################################################################################
+
 def josa_en(word):
     """add josa either '은' or '는' at the end of this word"""
     word = word.strip()
-    last_letter = word[-1]
-    if not is_hangul: raise NotHangulException('')
+    if not is_hangul(word): raise NotHangulException('')
     
+    last_letter = word[-1]
     josa = u'은' if has_jongsung(last_letter) else u'는'
     return word + josa
 
 def josa_eg(word):
     """add josa either '이' or '가' at the end of this word"""
     word = word.strip()
-    last_letter = word[-1]
-    if not is_hangul: raise NotHangulException('')
+    if not is_hangul(word): raise NotHangulException('')
     
+    last_letter = word[-1]
     josa = u'이' if has_jongsung(last_letter) else u'가'
     return word + josa
 
 def josa_el(word):
     """add josa either '을' or '를' at the end of this word"""
     word = word.strip()
-    last_letter = word[-1]
-    if not is_hangul: raise NotHangulException('')
+    if not is_hangul(word): raise NotHangulException('')
     
+    last_letter = word[-1]
     josa = u'을' if has_jongsung(last_letter) else u'를'
     return word + josa
     
@@ -124,6 +134,9 @@ def josa_gwa(word):
 ################################################################################
 
 class NotHangulException(Exception):
+    pass
+
+class NotLetterException(Exception):
     pass
 
 class NotWordException(Exception):
