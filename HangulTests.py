@@ -20,7 +20,7 @@ class HangulTests(unittest.TestCase):
 
     def test_is_hangul(self):
         hangul_letters = u'가나다라힣뷁'
-        other_letters = u'@%漢字かんじhán tựლ╹◡╹ლ'
+        other_letters = u'@%漢字かんじカンジhán tựლ╹◡╹ლ'
         non_unicode_letters = 'abcdez$%^&* '
         
         for letter in hangul_letters:
