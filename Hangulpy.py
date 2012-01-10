@@ -179,6 +179,15 @@ def josa_gwa(word):
     last_letter = word[-1]
     josa = u'과' if has_jongsung(last_letter) else u'와'
     return word + josa
+    
+def josa_ida(word):
+    """add josa either '이다' or '다' at the end of this word"""
+    word = word.strip()
+    if not is_hangul(word): raise NotHangulException('')
+    
+    last_letter = word[-1]
+    josa = u'이다' if has_jongsung(last_letter) else u'다'
+    return word + josa
 
 ################################################################################
 # Exceptions
