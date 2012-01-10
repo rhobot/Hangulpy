@@ -52,6 +52,9 @@ def is_hangul(phrase):
     @param phrase a target string
     @return True if the phrase is Hangul. False otherwise."""
     
+    # If the input is only one character, test whether the character is Hangul.
+    if len(phrase) == 1: return is_all_hangul(phrase)
+    
     # Remove all white spaces, punctuations, numbers.
     exclude = set(string.whitespace + string.punctuation + '0123456789')
     phrase = ''.join(ch for ch in phrase if ch not in exclude)
@@ -87,6 +90,40 @@ def has_batchim(letter):
 ################################################################################
 # Decomposition & Combination
 ################################################################################
+
+def compose(chosung, joongsung, jongsung=u''):
+    """This function returns a Hangul letter by composing the specified chosung, joongsung, and jongsung.
+    @param chosung
+    @param joongsung
+    @param jongsung the terminal Hangul letter. This is optional if you do not need a jongsung."""
+    
+    if jongsung is None: jongsung = u''
+        
+    try:
+        chosung_index = CHOSUNGS.index(chosung)
+        joongsung_index = JOONGSUNGS.index(joongsung)
+        jongsung_index = JONGSUNGS.index(jongsung)
+    except Exception, e:
+        raise NotHangulException('Using the combination of chosung, joongsung, and jongsung, you cannot make a Hangul character.')
+    
+    return unichr(0xAC00 + chosung_index * NUM_JOONGSUNGS * NUM_JONGSUNGS + joongsung_index * NUM_JONGSUNGS + jongsung_index)
+
+def decompose(hangul_letter):
+    """This function returns letters by decomposing the specified Hangul letter."""
+    
+    if len(hangul_letter) < 1:
+        raise NotLetterException('')
+    elif not is_hangul(hangul_letter):
+        raise NotHangulException('')
+    
+    code = ord(hangul_letter) - FIRST_HANGUL_UNICODE
+    jongsung_index = code % NUM_JONGSUNGS
+    code /= NUM_JONGSUNGS
+    joongsung_index = code % NUM_JOONGSUNGS
+    code /= NUM_JOONGSUNGS
+    chosung_index = code
+    
+    return (CHOSUNGS[chosung_index], JOONGSUNGS[joongsung_index], JONGSUNGS[jongsung_index])
 
 ################################################################################
 # Josa funcctions
