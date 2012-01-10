@@ -74,7 +74,7 @@ def is_all_hangul(phrase):
     return True
 
 def has_jongsung(letter):
-    """Check whether this letter contains JongSung"""
+    """Check whether this letter contains Jongsung"""
     if len(letter) != 1:
         raise Exception('The target string must be one letter.')
     if not is_hangul(letter):
@@ -86,6 +86,21 @@ def has_jongsung(letter):
 def has_batchim(letter):
     """This method is the same as has_jongsung()"""
     return has_jongsung(letter)
+    
+def has_approximant(letter):
+    """Approximant makes complex vowels, such as ones starting with y or w.
+    In Korean there is a unique approximant euㅡ making uiㅢ, but ㅢ does not make many irregularities."""
+    if len(letter) != 1:
+        raise Exception('The target string must be one letter.')
+    if not is_hangul(letter):
+        raise NotHangulException('The target string must be Hangul')
+
+    jaso = decompose(letter)
+    diphthong = (2, 3, 6, 7, 9, 10, 12, 14, 15, 17)
+    # [u'ㅑ',u'ㅒ',',u'ㅕ',u'ㅖ',u'ㅘ',u'ㅙ',u'ㅛ',u'ㅝ',u'ㅞ',u'ㅠ']
+    # excluded 'ㅢ' because y- and w-based complex vowels are irregular.
+    # vowels with umlauts (ㅐ, ㅔ, ㅚ, ㅟ) are not considered complex vowels.
+    return jaso[1] in diphthong
 
 ################################################################################
 # Decomposition & Combination
@@ -104,7 +119,7 @@ def compose(chosung, joongsung, jongsung=u''):
         joongsung_index = JOONGSUNGS.index(joongsung)
         jongsung_index = JONGSUNGS.index(jongsung)
     except Exception, e:
-        raise NotHangulException('Using the combination of chosung, joongsung, and jongsung, you cannot make a Hangul character.')
+        raise NotHangulException('No valid Hangul character can be generated using given combination of chosung, joongsung, and jongsung.')
     
     return unichr(0xAC00 + chosung_index * NUM_JOONGSUNGS * NUM_JONGSUNGS + joongsung_index * NUM_JONGSUNGS + jongsung_index)
 
@@ -126,7 +141,7 @@ def decompose(hangul_letter):
     return (CHOSUNGS[chosung_index], JOONGSUNGS[joongsung_index], JONGSUNGS[jongsung_index])
 
 ################################################################################
-# Josa funcctions
+# Josa functions
 ################################################################################
 
 def josa_en(word):
