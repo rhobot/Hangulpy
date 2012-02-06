@@ -179,7 +179,7 @@ def josa_ro(word):
     last_letter = word[-1]
     if not has_jongsung(last_letter):
         josa = u'로'
-    elif (ord(last_letter) - FIRST_HANGUL_UNICODE) % NUM_JONGSUNGS == 9:
+    elif (ord(last_letter) - FIRST_HANGUL_UNICODE) % NUM_JONGSUNGS == 9: # ㄹ
         josa = u'로'
     else:
         josa = u'으로'
@@ -203,6 +203,26 @@ def josa_ida(word):
     last_letter = word[-1]
     josa = u'이다' if has_jongsung(last_letter) else u'다'
     return word + josa
+    
+################################################################################
+# Prefixes and suffixes
+# Practice area; need more organization
+################################################################################
+
+def add_ryul(word):
+    """add suffix either '률' or '율' at the end of this word"""
+    word = word.strip()
+    if not is_hangul(word): raise NotHangulException('')
+    
+    last_letter = word[-1]
+    if not has_jongsung(last_letter):
+    ryul = u'율'
+    elif (ord(last_letter) - FIRST_HANGUL_UNICODE) % NUM_JONGSUNGS == 4: # ㄴ
+        ryul = u'율'
+    else:
+        ryul = u'률'
+        
+    return word + ryul
 
 ################################################################################
 # Exceptions
