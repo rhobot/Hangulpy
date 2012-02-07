@@ -236,6 +236,8 @@ def ili(word):
     
     last_letter = word[word.index(u'{가}')-1]
     word = word.replace(u'{가}', (u'가' if has_jongsung(last_letter) else u'이'))
+    
+    last_letter = word[word.index(u'{이}')-1]
     word = word.replace(u'{이}', (u'가' if has_jongsung(last_letter) else u'이'))
     return word
 
