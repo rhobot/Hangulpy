@@ -223,6 +223,21 @@ def add_ryul(word):
         ryul = u'률'
         
     return word + ryul
+    
+################################################################################
+# The formatter, or ultimately, a template system
+# Practice area; need more organization
+################################################################################
+
+def ili(word):
+    """convert {가} or {이} to their correct respective particles automagically."""
+    word = word.strip()
+    if not is_hangul(word): raise NotHangulException('')
+    
+    last_letter = word[word.index(u'{가}')-1]
+    word = word.replace(u'{가}', (u'가' if has_jongsung(last_letter) else u'이'))
+    word = word.replace(u'{이}', (u'가' if has_jongsung(last_letter) else u'이'))
+    return word
 
 ################################################################################
 # Exceptions
