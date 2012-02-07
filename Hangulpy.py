@@ -216,7 +216,7 @@ def add_ryul(word):
     
     last_letter = word[-1]
     if not has_jongsung(last_letter):
-    ryul = u'율'
+        ryul = u'율'
     elif (ord(last_letter) - FIRST_HANGUL_UNICODE) % NUM_JONGSUNGS == 4: # ㄴ
         ryul = u'율'
     else:
