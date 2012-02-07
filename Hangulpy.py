@@ -235,10 +235,10 @@ def ili(word):
     if not is_hangul(word): raise NotHangulException('')
     
     last_letter = word[word.find(u'{가}')-1]
-    word = word.replace(u'{가}', (u'가' if has_jongsung(last_letter) else u'이'))
+    word = word.replace(u'{가}', (u'이' if has_jongsung(last_letter) else u'가'))
     
     last_letter = word[word.find(u'{이}')-1]
-    word = word.replace(u'{이}', (u'가' if has_jongsung(last_letter) else u'이'))
+    word = word.replace(u'{이}', (u'이' if has_jongsung(last_letter) else u'가'))
     return word
 
 ################################################################################
